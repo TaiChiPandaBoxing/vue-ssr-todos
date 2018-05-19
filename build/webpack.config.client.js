@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractPlugin = require('extract-text-webpack-plugin')
+// const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 
@@ -28,7 +29,7 @@ let config
 
 if (isDev) {
   config = merge(baseConfig, {
-    devtool: '#cheap-module-eval-source-map',
+    // devtool: '#cheap-module-eval-source-map',
     module: {
       rules: [
         {
@@ -56,15 +57,17 @@ if (isDev) {
     },
     devServer,
     plugins: defaultPlugins.concat([
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.HotModuleReplacementPlugin()
+      // vue-loader V15版本需要配置VueLoaderPlugin()
+      // new VueLoaderPlugin()
+      // new webpack.NoEmitOnErrorsPlugin()
     ])
   })
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/index.js'),
-      vendor: ['vue']
+      app: path.join(__dirname, '../client/index.js')
+      // vendor: ['vue']
     },
     output: {
       // 开发环境绝对不能用chunkhash,否者报错
@@ -90,15 +93,21 @@ if (isDev) {
         }
       ]
     },
+    optimization: {
+      splitChunks: {
+        chunks: 'all'
+      },
+      runtimeChunk: true
+    },
     plugins: defaultPlugins.concat([
-      new ExtractPlugin('style.[contentHash:8].css'),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor'
-      }),
+      new ExtractPlugin('style.[contentHash:8].css')
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: 'vendor'
+      // }),
       // webpack配置单独打包，并且放在最后
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'runtime'
-      })
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: 'runtime'
+      // })
     ])
   })
 }
