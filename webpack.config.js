@@ -83,7 +83,7 @@ if (isDev) {
       'stylus-loader'
     ]
   })
-  config.devtool = '#cheap-module-eval-source-map',
+  config.devtool = '#cheap-module-eval-source-map'
   config.devServer = {
     port: 8000,
     host: '0.0.0.0',
@@ -93,7 +93,7 @@ if (isDev) {
       errors: true
     }
     // historyFallback: {} 将错误的网址映射到规定的页面
-  },
+  }
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
