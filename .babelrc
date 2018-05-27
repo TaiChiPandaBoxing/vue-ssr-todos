@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "env",
+    "stage-1"
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "syntax-dynamic-import",
+    "transform-async-to-generator"
+  ]
+}
